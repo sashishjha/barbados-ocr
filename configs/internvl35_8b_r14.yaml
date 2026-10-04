@@ -1,0 +1,31 @@
+inherit: qwen_recipe_7b.yaml
+# R14 candidate — InternVL3.5-8B-HF (Apache-2.0): InternViT vision encoder + Qwen3 LLM, a vision side
+# different from all our Qwen models (ensemble diversity). Needs transformers >= 4.52 -> run with
+# PYTHONPATH=.pylib_qwen3_checkpoint (4.57.1). Lines are tiled into 448-px patches (wide lines -> up to
+# 12 tiles). Fold 0 held out so its val n-best scores it; no test pseudo-labels; 3 epochs.
+model:
+  id: OpenGVLab/InternVL3_5-8B-HF
+  min_pixels: null
+  max_pixels: null
+  image_height: 448
+  image_max_width: 5376     # 12 tiles x 448
+  image_processor_kwargs:
+    crop_to_patches: true
+    min_patches: 1
+    max_patches: 12
+
+# Greedy decoding: HF beam search scrambles InternVL's multi-tile pixel_values across beams (degenerate output in
+# scripts/smoke_internvl_beam.py); ROVER only uses the top-1 reading anyway.
+generate:
+  num_beams: 1
+  max_new_tokens: 160
+
+data:
+  pseudo_csv: null
+
+train:
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/internvl35_8b_r14
+  checkpoint_dir: runs_checkpoint/internvl35_8b_r14_checkpoints

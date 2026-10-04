@@ -1,0 +1,54 @@
+inherit: base.yaml
+# R8 arm A1 — Qwen2.5-VL-7B (Apache-2.0) with the recipe of the public 0.904 LB adapter
+# (ModarIbrahim/road-qwen25vl-lora): bf16, LoRA r32 all-linear, fixed 256-px line height,
+# max_pixels 28*28*2048, short training, no label smoothing, no synthetic lines.
+arm: vlm
+seed: 42
+
+model:
+  id: Qwen/Qwen2.5-VL-7B-Instruct
+  dtype: bfloat16
+  attn_implementation: eager
+  image_height: 256
+  vertical_pad_frac: 0.20
+  min_pixels: 200704        # 256*28*28
+  max_pixels: 1605632       # 28*28*2048
+  lora_r: 32
+  lora_alpha: 64
+  lora_dropout: 0.05
+  lora_target_modules: all-linear
+
+train:
+  epochs: 3
+  batch_size: 2               # was 4: OOM on shared GPUs (job 1385); accum 8 keeps effective batch 16
+  eval_batch_size: 1           # x5 beams; eager vision attn is quadratic in batch: 8 -> 510 GiB (1359), 2 -> 75 GiB OOM (1387)
+  grad_accum: 8
+  lr: 1.0e-4
+  weight_decay: 0.0
+  warmup_ratio: 0.03
+  max_grad_norm: 1.0
+  label_smoothing: 0.0
+  gradient_checkpointing: true
+  num_workers: 8
+  log_every: 25
+  save_every_steps: 25         # ~10-20 min; atomic, keeps only the latest (keep_last: 1) + best
+  aug_strength_start: 0.4
+  aug_strength_step: 0.0
+  long_line_curriculum_start_epoch: 99
+
+augment:
+  enabled: true
+
+stackmix:
+  enabled: false
+
+generate:
+  num_beams: 5
+  max_new_tokens: 160
+  length_penalty: 1.0
+
+output:
+  dir: runs_checkpoint/qwen7b_r8a
+  checkpoint_dir: runs_checkpoint/qwen7b_r8a_checkpoints
+  keep_last: 1
+  cleanup_hf_cache: false

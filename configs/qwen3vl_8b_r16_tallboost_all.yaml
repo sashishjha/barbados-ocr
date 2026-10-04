@@ -1,0 +1,14 @@
+inherit: qwen3vl_8b_r16_tallboost.yaml
+# R16 E2 twin — plain R8 recipe + tall crops sampled 3x, on ALL labelled data, 3 epochs, no validation.
+data:
+  use_all_folds: true
+  boost_ids_csv: preds_checkpoint/tall_ids_all.csv
+  boost_factor: 3
+
+train:
+  skip_val: true
+  eval_last_only: false
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r16_tallboost_all
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r16_tallboost_all_checkpoints

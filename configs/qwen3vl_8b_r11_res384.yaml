@@ -1,0 +1,22 @@
+inherit: qwen3vl_8b.yaml
+# R11 experiment — Qwen3-VL-8B at 384-px line height (all R8-R10 models used 256 px ~ 9 patches tall;
+# superscript abbreviations and faint strokes are a main error source). Fold 0 held out so it can be
+# scored by its val n-best; no test pseudo-labels. Batch 1 x accum 16 (same effective batch 16):
+# eager vision attention grows ~quadratically with patches per image.
+model:
+  image_height: 384
+  image_max_width: 6144     # keep the 16:1 aspect cap of 256x4096; 4096 here would squash 61% of lines (17% at 256)
+  min_pixels: 301056        # 384*28*28
+  max_pixels: 3211264       # 28*28*4096
+
+data:
+  pseudo_csv: null
+
+train:
+  batch_size: 1
+  grad_accum: 16
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r11_res384
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r11_res384_checkpoints

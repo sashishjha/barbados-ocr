@@ -1,0 +1,11 @@
+inherit: qwen3vl_8b_r19_visfull.yaml
+# smoke test only: 40 train lines, 6 val lines, 1 epoch
+data:
+  train_ids_csv: preds_checkpoint/smoke_train_ids.csv
+  val_ids_csv: preds_checkpoint/smoke_val_ids.csv
+train:
+  epochs: 1
+  save_every_steps: 2
+output:
+  dir: runs_checkpoint/smoke_r19
+  checkpoint_dir: runs_checkpoint/smoke_r19_checkpoints

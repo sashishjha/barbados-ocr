@@ -1,0 +1,18 @@
+inherit: qwen3vl_8b.yaml
+# R19 — full fine-tuning of the VISION TOWER (patch embed, 27 blocks, mergers; fp32 master weights, bf16 autocast) with layer-wise
+# LR decay, LLM keeps LoRA r32.  Hypothesis: top entries use the official full fine-tuning recipe; our only single-model gain so far
+# came from more vision adaptation capacity (vision LoRA r128: .9054 vs plain .8997).  Fold 0, 3 epochs, val each epoch (3 beams).
+model:
+  vision_full_ft: true
+
+train:
+  vision_lr: 3.0e-5
+  vision_layer_decay: 0.85
+  vision_weight_decay: 0.05
+
+generate:
+  num_beams: 3
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r19_visfull
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r19_visfull_checkpoints

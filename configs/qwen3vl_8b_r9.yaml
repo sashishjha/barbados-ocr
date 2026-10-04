@@ -1,0 +1,14 @@
+inherit: qwen3vl_8b.yaml
+# R9 arm — Qwen3-VL-8B (best R8 single model, val 0.8997) retrained with R9 pseudo-labels
+# (fused R8 ensemble, LB 0.9154, kept only where arms agree). Fold 0 stays held out.
+data:
+  pseudo_csv: data/derived_checkpoint/pseudo_r9.csv
+  pseudo_loss_weight: 1.0
+  pseudo_max_ratio: 0.30
+
+train:
+  eval_last_only: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r9
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r9_checkpoints

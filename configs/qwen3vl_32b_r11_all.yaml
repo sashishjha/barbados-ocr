@@ -1,0 +1,9 @@
+inherit: qwen3vl_32b_r10.yaml
+# R11 final arm — Qwen3-VL-32B on ALL labelled data (R10 fold-0 version: val 0.9002 alone, +0.0044 as an
+# ensemble member over R8 models). 2 epochs, no validation, test n-best only.
+data:
+  use_all_folds: true
+
+output:
+  dir: runs_checkpoint/qwen3vl32b_r11all
+  checkpoint_dir: runs_checkpoint/qwen3vl32b_r11all_checkpoints

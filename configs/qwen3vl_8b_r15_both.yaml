@@ -1,0 +1,8 @@
+inherit: qwen3vl_8b_r15_long.yaml
+# R15 arm C — arms A and B combined: scan fingerprint in the prompt + long strongly augmented training.
+model:
+  style_prompt: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r15_both
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r15_both_checkpoints

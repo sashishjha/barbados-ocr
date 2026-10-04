@@ -1,0 +1,7 @@
+inherit: qwen3vl_8b_r9.yaml
+# R9 diversity arm — same as qwen3vl_8b_r9 with another seed (different init/order/augmentation).
+seed: 7
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r9s7
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r9s7_checkpoints

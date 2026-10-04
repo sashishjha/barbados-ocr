@@ -1,0 +1,13 @@
+inherit: qwen3vl_8b.yaml
+# R10 final arm — Qwen3-VL-8B on ALL labelled data (train + fold 0: +811 real lines), no test
+# pseudo-labels, 3 epochs (epoch 3 was best in R8 and R9). No validation: fold 0 is in training.
+data:
+  pseudo_csv: null
+  use_all_folds: true
+
+train:
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r10all
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r10all_checkpoints

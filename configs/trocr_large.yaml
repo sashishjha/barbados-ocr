@@ -1,0 +1,45 @@
+inherit: base.yaml
+# ARM A - TrOCR large (stage1 base, no IAM exposure).
+# microsoft/trocr-large-handwritten is MIT licensed with no IAM fine-tuning.
+# Switched from trocr-large-handwritten (IAM grey zone) per expert review 2026-09-20.
+arm: trocr
+
+model:
+  id: microsoft/trocr-large-handwritten
+  attn_implementation: eager      # TrOCR does not support sdpa
+  use_lora: false                 # full bf16 fine-tune fits on one MI300X
+  lora_r: 32
+  lora_alpha: 64
+  lora_dropout: 0.05
+
+train:
+  epochs: 12
+  batch_size: 24
+  eval_batch_size: 32
+  grad_accum: 1
+  lr: 3.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.05
+  max_grad_norm: 1.0
+  label_smoothing: 0.05           # mild; helps under the known label noise
+  max_target_length: 160          # max observed target is 120 chars
+  gradient_checkpointing: true
+  num_workers: 12
+  log_every: 25
+  save_every_steps: 400
+  aug_strength_start: 0.5
+  aug_strength_step: 0.10
+  long_line_curriculum_start_epoch: 4
+  long_line_curriculum_power: 1.0
+
+generate:
+  num_beams: 5                    # tune on OOF: 1 / 3 / 5 / 8
+  max_length: 160
+  length_penalty: 1.0
+  no_repeat_ngram_size: 0
+
+output:
+  dir: runs_checkpoint/trocr_large
+  checkpoint_dir: runs_checkpoint/trocr_large_checkpoints
+  keep_last: 1
+  cleanup_hf_cache: false

@@ -1,0 +1,13 @@
+inherit: qwen3vl_8b.yaml
+# R17 probe — feature side: LoRA rank 128 (alpha 256) on the VISION blocks only (LLM stays r32), otherwise the R8 recipe, fold 0
+# held out. T2 says 53% of ROVER's wrong lines are 'feature failures' (the encoder does not extract enough); compare to R8
+# (overall .8942/.8983/.8997 at epochs 1/2/3; tall .8310).
+model:
+  vision_lora_r: 128
+
+generate:
+  num_beams: 3
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r17_vis128
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r17_vis128_checkpoints

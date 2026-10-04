@@ -1,0 +1,16 @@
+inherit: qwen25vl_lora.yaml
+# Round 1 of the sanctioned pseudo-labelling loop: retrain the VLM arm with
+# accepted test pseudo-labels mixed in at a capped ratio and reduced loss weight.
+# Only proceed to round 2 if the OOF weighted metric IMPROVES.
+data:
+  pseudo_csv: data/derived_checkpoint/pseudo_round1.csv
+  pseudo_max_ratio: 0.30
+  pseudo_loss_weight: 0.5
+
+train:
+  epochs: 4
+  lr: 5.0e-5
+
+output:
+  dir: runs_checkpoint/qwen25vl_pseudo1
+  checkpoint_dir: runs_checkpoint/qwen25vl_pseudo1_checkpoints

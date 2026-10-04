@@ -1,0 +1,106 @@
+# Shared defaults. Every arm config inherits from this file.
+seed: 42
+arm: null
+
+data:
+  train_csv: data/Train.csv                                  # ORIGINAL, never modified
+  test_csv: data/Test.csv
+  image_dir: data/images
+  clean_csv: data/derived_checkpoint/train_clean.csv         # derived, exclusions applied
+  folds_csv: data/derived_checkpoint/train_folds.csv
+  oof_ref_csv: data/derived_checkpoint/oof_ref.csv
+  census_csv: data/derived_checkpoint/multiline_census.csv
+  fold: 0
+  n_splits: 5
+  # Pseudo-labelling (officially permitted, 17 Aug 2026). Empty until round 1.
+  pseudo_csv: null
+  pseudo_max_ratio: 0.30
+  pseudo_loss_weight: 0.5
+
+eval:
+  # weight_factor is passed to compute_weighted_{wer,cer}, matching the starter
+  # configs. See src/eval/cer.py for what we had to reconstruct and why.
+  weight_factor: 0.5
+  normalization: raw          # raw | strip_ws | aggressive
+  scheme: length_pow          # length_pow | micro | uniform
+  # PRIMARY selection metric: final_05_05. The public LB matches 0.5*CER+0.5*WER
+  # (Qwen solo: val 0.5/0.5=0.886 vs LB 0.882; 0.7/0.3 gave 0.910). Switched 29 Sep.
+  primary: final_05_05
+
+preprocess:
+  grayscale: true
+  clahe: true
+  clahe_clip: 2.0
+  clahe_grid: 8
+  deskew: true
+  deskew_max_deg: 6.0
+  target_height: 96
+  max_width: 1024
+  pad_mode: right             # right | center | replicate  <- ablate these 3
+  pad_value: -1               # -1 = estimate paper tone from the border
+  to_rgb: true
+
+augment:
+  enabled: true
+  p_elastic: 0.30
+  elastic_alpha: 8.0
+  elastic_sigma: 6.0
+  p_affine: 0.50
+  max_rotate_deg: 2.0
+  max_shear: 0.06
+  scale_range: [0.94, 1.06]
+  max_translate_frac: 0.02
+  p_photometric: 0.60
+  brightness_range: [0.80, 1.20]
+  contrast_range: [0.80, 1.25]
+  gamma_range: [0.85, 1.20]
+  p_ink_fade: 0.30
+  ink_fade_strength: [0.15, 0.55]
+  p_blot: 0.20
+  blot_count: [1, 4]
+  blot_radius_frac: [0.01, 0.05]
+  p_tint: 0.25
+  tint_strength: [0.02, 0.12]
+  p_blur: 0.20
+  blur_radius: [0.3, 1.1]
+  p_noise: 0.25
+  noise_sigma: [2.0, 9.0]
+  p_stretch: 0.25
+  stretch_range: [0.90, 1.12]
+  strength: 1.0
+  seed: 42
+
+# StackMix - officially permitted 24 Aug 2026. Provided TRAIN images only.
+stackmix:
+  enabled: true
+  bank_dir: data/derived_checkpoint/stackmix_bank
+  p: 0.35
+  min_words: 6
+  max_words: 16
+  target_len_range: [60, 120]     # bias synthesis toward the long-line regime
+  gap_px_range: [10, 34]
+  height_jitter: 0.06
+  baseline_jitter_px: 3
+  same_source_bias: 0.35
+  min_crop_width: 8
+  max_bank_images: null
+  seed: 42
+
+postprocess:
+  enabled: true
+  spacing: true
+  confusion: true
+  min_word_freq: 2
+  max_edits_per_word: 1
+  max_word_len_for_fix: 24
+  strip_prompt_echo: true
+
+output:
+  dir: runs_checkpoint/base
+  checkpoint_dir: runs_checkpoint/base_checkpoints    # MUST contain "checkpoint"
+  keep_last: 1
+  cleanup_hf_cache: false
+
+  pseudo_csv: data/derived_checkpoint/pseudo_r1.csv
+  pseudo_max_ratio: 0.50
+  pseudo_loss_weight: 0.5

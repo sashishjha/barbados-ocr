@@ -1,0 +1,13 @@
+inherit: qwen_recipe_7b.yaml
+# R10 final arm — Qwen2.5-VL-7B new recipe on ALL labelled data, no test pseudo-labels, 3 epochs,
+# no validation. Keeps a second model family in the ensemble (diversity is what helped ROVER).
+data:
+  pseudo_csv: null
+  use_all_folds: true
+
+train:
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen7b_r10all
+  checkpoint_dir: runs_checkpoint/qwen7b_r10all_checkpoints

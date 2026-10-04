@@ -1,0 +1,7 @@
+inherit: qwen3vl_8b_r17_vis128_all.yaml
+# R18 — second seed of the Qwen3-VL-8B vision-LoRA r128 all-data model (replaces the second Qwen3-8B member).
+seed: 7
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r18_vis128_all_s7
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r18_vis128_all_s7_checkpoints

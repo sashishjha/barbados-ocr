@@ -1,0 +1,13 @@
+inherit: qwen3vl_8b_r15_long.yaml
+# R15 arm D — the r15_long recipe (8 epochs, strong aug + vertical shift) on ALL labelled data (fold 0 included), no
+# validation (final epoch saved). All-data twins gave +0.002-0.003 LB for the Qwen models. Started as a head start on the GPU
+# freed by r15_style; 2024 steps x ~0.4 min = ~13.5 h.
+data:
+  use_all_folds: true
+
+train:
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r15_long_all
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r15_long_all_checkpoints

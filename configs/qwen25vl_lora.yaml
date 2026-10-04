@@ -1,0 +1,53 @@
+inherit: base.yaml
+# ARM B - Qwen2.5-VL-7B (Apache 2.0). Upgraded from 3B (qwen-research = NO commercial use).
+# CONFIRMED LICENSE: Qwen/Qwen2.5-VL-7B-Instruct is Apache-2.0.
+# 7B in fp32 ≈ 28GB VRAM. Full fine-tune (unfrozen) fits on 192GB MI300X.
+# Vision tower frozen for epoch 1, unfrozen after.
+arm: vlm
+
+model:
+  id: Qwen/Qwen2.5-VL-7B-Instruct
+  attn_implementation: eager
+  max_pixels: 1500000
+  lora_r: 64
+  lora_alpha: 128
+  lora_dropout: 0.05
+  lora_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+train:
+  epochs: 8
+  batch_size: 2
+  eval_batch_size: 2
+  grad_accum: 8
+  lr: 1.0e-5
+  weight_decay: 0.05
+  warmup_steps: 100
+  max_grad_norm: 1.0
+  label_smoothing: 0.1
+  gradient_checkpointing: true
+  num_workers: 8
+  log_every: 25
+  save_every_steps: 250
+  aug_strength_start: 0.6
+  aug_strength_step: 0.10
+  long_line_curriculum_start_epoch: 2
+  long_line_curriculum_power: 1.0
+  gradient_checkpointing: true
+  num_workers: 8
+  log_every: 25
+  save_every_steps: 250
+  aug_strength_start: 0.5
+  aug_strength_step: 0.15
+  long_line_curriculum_start_epoch: 2
+  long_line_curriculum_power: 1.0
+
+generate:
+  num_beams: 5
+  max_new_tokens: 160
+  length_penalty: 1.0
+
+output:
+  dir: runs_checkpoint/qwen25vl
+  checkpoint_dir: runs_checkpoint/qwen25vl_lora_checkpoints
+  keep_last: 1
+  cleanup_hf_cache: false

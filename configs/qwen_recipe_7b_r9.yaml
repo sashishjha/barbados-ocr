@@ -1,0 +1,13 @@
+inherit: qwen_recipe_7b.yaml
+# R9 arm — Qwen2.5-VL-7B new recipe (R8 val 0.8986) retrained with R9 pseudo-labels.
+data:
+  pseudo_csv: data/derived_checkpoint/pseudo_r9.csv
+  pseudo_loss_weight: 1.0
+  pseudo_max_ratio: 0.30
+
+train:
+  eval_last_only: true
+
+output:
+  dir: runs_checkpoint/qwen7b_r9a
+  checkpoint_dir: runs_checkpoint/qwen7b_r9a_checkpoints

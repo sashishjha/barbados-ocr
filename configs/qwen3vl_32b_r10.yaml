@@ -1,0 +1,19 @@
+inherit: qwen3vl_8b.yaml
+# R10 arm — Qwen3-VL-32B-Instruct (Apache-2.0, 66.7 GB bf16), same recipe/code path as our best
+# model (Qwen3-VL-8B). Fold 0 held out so it can be scored; no test pseudo-labels (R9 showed they
+# make models echo the ensemble that produced them). 2 epochs (~4x the 8B cost per step).
+model:
+  id: Qwen/Qwen3-VL-32B-Instruct
+
+data:
+  pseudo_csv: null
+
+train:
+  epochs: 2
+  # No in-training beam-search validation (~4 h on 32B): the job's val n-best inference scores it
+  # (fold 0 is still held out, so that score is real). Final epoch -> best_checkpoint.
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl32b_r10
+  checkpoint_dir: runs_checkpoint/qwen3vl32b_r10_checkpoints

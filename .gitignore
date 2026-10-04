@@ -1,0 +1,31 @@
+# competition data and anything derived from it (not redistributable)
+data/*
+!data/README.md
+*.zip
+images/
+Train.csv
+Test.csv
+SampleSubmission.csv
+
+# model weights, predictions, logs, caches
+runs*/
+*_checkpoint/
+*_checkpoints/
+preds*/
+submissions/
+logs*/
+.hf_cache*/
+.pylib*/
+*.pt
+*.safetensors
+*.bin
+
+# environments / tooling
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+
+# keep the small result artifacts
+!artifacts/

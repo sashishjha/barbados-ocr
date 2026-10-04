@@ -1,0 +1,11 @@
+inherit: qwen3vl_8b_r20_visfull_u.yaml
+# R20 all-data twin (no validation; final epoch kept).  Its fold-0 sibling decides whether it enters the final ensemble.
+data:
+  use_all_folds: true
+
+train:
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r20_visfull_u_all
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r20_visfull_u_all_checkpoints

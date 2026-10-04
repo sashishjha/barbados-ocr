@@ -1,0 +1,36 @@
+inherit: base.yaml
+# ARM C - CRNN/CTC trained from scratch on the provided data.
+# No pretrained weights are downloaded, so there is no third-party weights
+# license to clear. Its value is ensemble DIVERSITY: a CTC head cannot
+# hallucinate text beyond the visual evidence the way the two autoregressive
+# arms can.
+arm: ctc
+
+model:
+  hidden: 384
+  layers: 3
+  dropout: 0.15
+
+train:
+  epochs: 60
+  batch_size: 48
+  eval_batch_size: 64
+  lr: 3.0e-4
+  weight_decay: 0.01
+  warmup_ratio: 0.05
+  max_grad_norm: 5.0
+  num_workers: 12
+  log_every: 50
+  save_every_steps: 1000
+  aug_strength_start: 0.6
+  aug_strength_step: 0.05
+  long_line_curriculum_start_epoch: 20
+  long_line_curriculum_power: 1.0
+
+generate:
+  beam_width: 12
+
+output:
+  dir: runs_checkpoint/crnn_ctc
+  checkpoint_dir: runs_checkpoint/crnn_ctc_checkpoints
+  keep_last: 1

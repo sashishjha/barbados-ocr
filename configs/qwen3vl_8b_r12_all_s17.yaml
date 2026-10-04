@@ -1,0 +1,8 @@
+inherit: qwen3vl_8b_r10_all.yaml
+# R12 extra arm (GPU 0 after its resume finished) — Qwen3-VL-8B on ALL labelled data, seed 17,
+# no test pseudo-labels, 3 epochs, no validation. Fits inside job 1603 (~5.5 h).
+seed: 17
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r12all_s17
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r12all_s17_checkpoints

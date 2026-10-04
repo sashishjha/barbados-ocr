@@ -1,0 +1,20 @@
+inherit: qwen3vl_8b.yaml
+# R15 arm B — long, strongly augmented training (8 epochs, cosine), fold 0 held out, validated every epoch (best kept).
+# Augmentation probabilities x1.5 (the base recipe uses x0.4), stronger elastic, vertical window shift +-8 %.
+train:
+  epochs: 8
+  aug_strength_start: 1.5
+  aug_strength_step: 0.0
+
+augment:
+  enabled: true
+  elastic_alpha: 12.0
+  p_vshift: 0.5
+  vshift_frac: 0.08
+
+generate:
+  num_beams: 3
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r15_long
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r15_long_checkpoints

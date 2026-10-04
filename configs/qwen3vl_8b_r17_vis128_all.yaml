@@ -1,0 +1,11 @@
+inherit: qwen3vl_8b_r17_vis128.yaml
+# R17 twin — vision-LoRA rank 128 recipe on ALL labelled data, 3 epochs, no validation.
+data:
+  use_all_folds: true
+
+train:
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r17_vis128_all
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r17_vis128_all_checkpoints

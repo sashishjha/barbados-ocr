@@ -1,0 +1,15 @@
+inherit: trocr_large.yaml
+# R13 arm — TrOCR-large-handwritten (MIT) on ALL labelled data, warm-started from BEST_trocr_hw_r5_val0878
+# (the TrOCR in every best ensemble). A different architecture = ensemble diversity. No test pseudo-labels,
+# 6 epochs at the R5 learning rate, no validation (fold 0 is in training).
+data:
+  pseudo_csv: null
+  use_all_folds: true
+
+train:
+  epochs: 6
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/trocr_r13all
+  checkpoint_dir: runs_checkpoint/trocr_r13all_checkpoints

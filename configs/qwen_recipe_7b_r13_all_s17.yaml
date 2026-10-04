@@ -1,0 +1,7 @@
+inherit: qwen_recipe_7b_r10_all.yaml
+# R13 arm — Qwen2.5-VL-7B on ALL labelled data, seed 17, no test pseudo-labels, 3 epochs, no validation.
+seed: 17
+
+output:
+  dir: runs_checkpoint/qwen7b_r13all_s17
+  checkpoint_dir: runs_checkpoint/qwen7b_r13all_s17_checkpoints

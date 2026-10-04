@@ -1,0 +1,10 @@
+inherit: qwen_recipe_7b.yaml
+# R8 arm A2 — Qwen3-VL-8B-Instruct (Apache-2.0), same recipe as A1.
+# Needs transformers>=4.57 -> run with PYTHONPATH=.pylib_qwen3_checkpoint (see 26_train_vlm_trio.sbatch).
+model:
+  id: Qwen/Qwen3-VL-8B-Instruct
+  attn_implementation: eager   # sdpa gave NaNs on ROCm in iteration 2
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r8
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r8_checkpoints

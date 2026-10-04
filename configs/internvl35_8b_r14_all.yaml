@@ -1,0 +1,10 @@
+inherit: internvl35_8b_r14.yaml
+# R14 arm — InternVL3.5-8B on ALL labelled data (fold 0 included), no test pseudo-labels, 3 epochs, no
+# validation. Its fold-0 twin (internvl35_8b_r14) scores the family; if InternVL helps the ensemble, this
+# all-data twin REPLACES the fold-0 one in the final vote (all-data twins helped for Qwen3-VL-8B / Qwen2.5-7B).
+data:
+  use_all_folds: true
+
+output:
+  dir: runs_checkpoint/internvl35_8b_r14all
+  checkpoint_dir: runs_checkpoint/internvl35_8b_r14all_checkpoints

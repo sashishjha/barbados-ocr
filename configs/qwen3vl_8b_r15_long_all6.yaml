@@ -1,0 +1,12 @@
+inherit: qwen3vl_8b_r15_long.yaml
+# R15 twin D6 — the long recipe on ALL labelled data, 6 epochs (the fold-0 curve peaked at epoch 6 of 8), no validation (final epoch saved).
+data:
+  use_all_folds: true
+
+train:
+  epochs: 6
+  skip_val: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r15_long_all6
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r15_long_all6_checkpoints

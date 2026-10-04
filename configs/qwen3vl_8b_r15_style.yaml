@@ -1,0 +1,12 @@
+inherit: qwen3vl_8b.yaml
+# R15 arm A — Qwen3-VL-8B with the scan fingerprint (native pixel size + paper colour) in the prompt, fold 0 held out,
+# otherwise the R8 recipe, so the val score is directly comparable to 0.8987 (R8) / 0.9034 (R9 with pseudo-labels).
+model:
+  style_prompt: true
+
+generate:
+  num_beams: 3
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r15_style
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r15_style_checkpoints

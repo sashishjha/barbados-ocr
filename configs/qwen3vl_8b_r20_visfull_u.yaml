@@ -1,0 +1,25 @@
+inherit: qwen3vl_8b_r19_visfull.yaml
+# R20 — full fine-tune of the vision tower at a UNIFORM LR 5e-5 (no layer decay). Rationale (external review, consistent with our numbers):
+# r19's decay 0.85/block left the median block at ~1/6 of the effective LR of LoRA r32, so the encoder barely moved; vision LoRA r128 is
+# effectively ~4e-5 per element per step, uniform -> go above it, uniform.  4 epochs, warm-up 10 %, moderate aug incl. vertical shift.
+train:
+  epochs: 4
+  vision_lr: 5.0e-5
+  vision_layer_decay: 1.0
+  warmup_ratio: 0.1
+  aug_strength_start: 1.0
+  aug_strength_step: 0.0
+
+augment:
+  enabled: true
+  elastic_alpha: 12.0
+  p_vshift: 0.5
+  vshift_frac: 0.08
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r20_visfull_u
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r20_visfull_u_checkpoints
+
+# in-training validation greedy (shared GPU: 3-beam val took ~50 min); final val/test inference uses 3 beams (launchers pass --set)
+generate:
+  num_beams: 1

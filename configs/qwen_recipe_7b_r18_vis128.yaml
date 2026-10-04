@@ -1,0 +1,12 @@
+inherit: qwen_recipe_7b.yaml
+# R18 — Qwen2.5-VL-7B with vision-tower LoRA rank 128 (alpha 256), fold 0 held out, val each epoch (3 beams): does the R17 mechanism
+# transfer to the second family?  Plain q7 recipe val: .8986 (r8a).  Expect ~173M trainable params incl. visual.*
+model:
+  vision_lora_r: 128
+
+generate:
+  num_beams: 3
+
+output:
+  dir: runs_checkpoint/qwen7b_r18_vis128
+  checkpoint_dir: runs_checkpoint/qwen7b_r18_vis128_checkpoints

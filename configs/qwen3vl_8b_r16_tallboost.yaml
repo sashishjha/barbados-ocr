@@ -1,0 +1,13 @@
+inherit: qwen3vl_8b.yaml
+# R16 E2 — the plain R8 recipe (3 epochs, fold 0 held out) with the 817 tall-crop train lines sampled 3x per epoch.
+# Compare tall AND short scores against R8 (0.8997 overall; tall 0.8310, short 0.9193 on the same val split).
+data:
+  boost_ids_csv: preds_checkpoint/tall_train_ids_fold0.csv
+  boost_factor: 3
+
+train:
+  eval_last_only: true
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r16_tallboost
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r16_tallboost_checkpoints

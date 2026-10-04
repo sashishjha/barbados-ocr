@@ -1,0 +1,8 @@
+inherit: qwen3vl_8b_r10_all.yaml
+# R11 final arm — Qwen3-VL-8B on ALL labelled data, seed 13 (R10 all-data used seed 42), no test
+# pseudo-labels, 3 epochs, no validation.
+seed: 13
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r11all_s13
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r11all_s13_checkpoints

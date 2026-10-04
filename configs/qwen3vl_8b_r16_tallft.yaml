@@ -1,0 +1,14 @@
+inherit: qwen3vl_8b.yaml
+# R16 E1 — continue the fold-0 R8 Qwen3-VL-8B LoRA (--init-from BEST_qwen3vl8b_r8_f55_08997, val 0.8997) on TALL crops only
+# (native height > 200 px, 817 train lines), 3 epochs at half LR; validated on the 196 tall fold-0 val lines (baseline 0.8310).
+data:
+  train_ids_csv: preds_checkpoint/tall_train_ids_fold0.csv
+  val_ids_csv: preds_checkpoint/val_tall_ids.csv
+
+train:
+  epochs: 3
+  lr: 5.0e-5
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r16_tallft
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r16_tallft_checkpoints

@@ -1,0 +1,14 @@
+inherit: qwen_recipe_7b.yaml
+# R8 arm A3 — same model/recipe as A1 but a different, deliberately diverse variant for the
+# ensemble: other seed, lower lr, StackMix synthetic lines on, no pseudo-labels (set in sbatch).
+seed: 7
+
+train:
+  lr: 5.0e-5
+
+stackmix:
+  enabled: true
+
+output:
+  dir: runs_checkpoint/qwen7b_r8b
+  checkpoint_dir: runs_checkpoint/qwen7b_r8b_checkpoints

@@ -1,0 +1,9 @@
+inherit: qwen3vl_8b_r17_vis128.yaml
+# R17b probe — vision-tower LoRA rank 256 (alpha 512), everything else as r17_vis128 (fold 0 held out, val each epoch).
+# vis128 epochs 1/2 = .8967/.9048 vs plain R8 .8942/.8983: does MORE vision capacity keep helping?
+model:
+  vision_lora_r: 256
+
+output:
+  dir: runs_checkpoint/qwen3vl8b_r17_vis256
+  checkpoint_dir: runs_checkpoint/qwen3vl8b_r17_vis256_checkpoints
